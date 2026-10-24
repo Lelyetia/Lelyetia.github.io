@@ -26,6 +26,17 @@ const awards = defineCollection({
   })
 });
 
+const articles = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    description: z.string().default(""),
+    date: z.string(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false)
+  })
+});
+
 const notes = defineCollection({
   type: "content",
   schema: z.object({
@@ -44,6 +55,7 @@ const notes = defineCollection({
 
 export const collections = {
   learning,
+  articles,
   awards,
   notes
 };

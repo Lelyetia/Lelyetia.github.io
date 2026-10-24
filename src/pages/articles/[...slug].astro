@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { render } from 'astro:content';
+import { getPublishedArticles } from '../../utils/articles';
+
+export async function getStaticPaths() {
+  return (await getPublishedArticles()).map(item => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const { Content, headings } = await render(item);
+---
+
+<BaseLayout title={`${item.data.title} | Lelyetia的小站`} description={item.data.description} headings={headings}>
+  <main class="content-page">
+    <article class="info-section" data-reveal>
+      <a class="back-link" href="/articles/">返回文章列表</a>
+      <header class="article-detail-heading"><h1>{item.data.title}</h1><time datetime={item.data.date}>{item.data.date}</time></header>
+      <div class="learning-tags">{item.data.tags.map(tag => <span>{tag}</span>)}</div>
+      <div class="learning-review"><Content /></div>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .article-detail-heading{margin:24px 0 20px;}
+  .article-detail-heading h1{margin:0 0 12px;font-size:clamp(1.7rem,3vw,2.5rem);line-height:1.4;}
+  .article-detail-heading time{color:var(--muted);font-size:.8rem;}
+</style>

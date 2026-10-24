@@ -1,0 +1,39 @@
+---
+import Icon from "./Icon.astro";
+import { getCovers, getDefaultCover } from '../utils/covers.js';
+const { home = false } = Astro.props;
+const covers = getCovers();
+const defaultCover = getDefaultCover(covers);
+---
+
+<section class:list={["site-banner", { "home-hero": home }]} aria-labelledby={home ? "hero-title" : undefined} transition:name="site-banner" transition:animate="none">
+  <img
+    class="hero-cover"
+    src={defaultCover.src}
+    alt=""
+    width="2560"
+    height="1600"
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+  />
+  <script is:inline define:vars={{ coverSources: covers.map(cover => cover.src) }}>
+    // Restore before the first paint; only images in the built gallery are allowed.
+    try {
+      const savedCover = localStorage.getItem('site-cover');
+      if (coverSources.includes(savedCover)) document.querySelector('.hero-cover').src = savedCover;
+    } catch {}
+  </script>
+  {home && <div class="hero-copy">
+    <p class="hero-eyebrow"><span></span> Lelyetia的小站</p>
+    <h1 id="hero-title">欢迎来到<br /><span>我的个人小站！</span></h1>
+    <div class="hero-actions">
+      <a class="hero-text-link" href="/knowledge/">前往知识库 <Icon name="arrow-right" size={18} /></a>
+      <a class="hero-text-link" href="/articles/">前往阅读文章 <Icon name="arrow-right" size={18} /></a>
+    </div>
+  </div>}
+  {home && <a class="hero-scroll-cue" href="#page-content" data-astro-reload aria-label="向下浏览内容" title="向下浏览内容">
+    <Icon name="arrow-down" size={25} />
+  </a>}
+  <button class="cover-gallery-toggle js-only" type="button" data-cover-toggle aria-haspopup="dialog" aria-label="查看历史封面"><Icon name="image" size={16} /><span>历史封面</span></button>
+</section>

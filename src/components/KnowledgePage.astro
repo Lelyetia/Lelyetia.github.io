@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from './Icon.astro';
+---
+
+<BaseLayout title="知识库 | Lelyetia的小站" description="Lelyetia 的知识库入口，继续阅读学习笔记与知识整理。">
+  <main class="content-page">
+    <section class="page-heading"><h1>知识库</h1><span>学习笔记与知识整理。</span></section>
+    <section class="knowledge-entry" data-reveal aria-labelledby="knowledge-entry-title">
+      <div class="knowledge-entry-art" aria-hidden="true"><span></span><span></span><div><Icon name="book" size={52} strokeWidth={1.4} /></div></div>
+      <p class="knowledge-entry-eyebrow">LELYETIA / KNOWLEDGE</p>
+      <h2 id="knowledge-entry-title">把所学，慢慢连成体系。</h2>
+      <p class="knowledge-entry-description">前往我的知识库，继续探索与阅读。</p>
+      <a class="knowledge-entry-link" href="https://lelyetia.github.io/Lelyetia-knowledge/" data-astro-reload>进入知识库 <Icon name="arrow-up-right" size={20} /></a>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .knowledge-entry{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;min-height:420px;padding:44px 36px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow);}
+  .knowledge-entry::before{content:"";position:absolute;top:-100px;right:-100px;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,var(--accent-soft),transparent 70%);pointer-events:none;}
+  .knowledge-entry-art{position:relative;display:grid;place-items:center;width:96px;height:96px;margin:8px 0 38px;color:var(--accent);}
+  .knowledge-entry-art>span,.knowledge-entry-art>div{position:absolute;inset:0;border:1px solid color-mix(in srgb,var(--brand) 20%,var(--line));border-radius:18px;background:var(--accent-soft);}
+  .knowledge-entry-art>span:first-child{transform:rotate(-12deg);opacity:.5;}
+  .knowledge-entry-art>span:nth-child(2){transform:rotate(8deg);opacity:.7;}
+  .knowledge-entry-art>div{display:grid;place-items:center;transition:transform 450ms var(--ease-out);}
+  .knowledge-entry:hover .knowledge-entry-art>div{transform:translateY(-4px) rotate(-3deg);}
+  .knowledge-entry-eyebrow{margin:0 0 12px;color:var(--accent);font-family:var(--font-mono);font-size:.72rem;letter-spacing:.1em;}
+  .knowledge-entry h2{margin:0;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600;letter-spacing:-.025em;line-height:1.5;}
+  .knowledge-entry-description{margin:16px 0 30px;color:var(--muted);font-size:.9rem;}
+  .knowledge-entry-link{display:inline-flex;align-items:center;gap:14px;padding:12px 19px;border-radius:10px;background:var(--accent);color:var(--surface);font-weight:600;font-size:.9rem;transition:transform 250ms var(--ease-out),box-shadow 250ms;}
+  .knowledge-entry-link:hover{transform:translateY(-2px);box-shadow:0 5px 18px color-mix(in srgb,var(--brand) 23%,transparent);}
+  .knowledge-entry-link svg{transition:transform 250ms var(--ease-out);}
+  .knowledge-entry-link:hover svg{transform:translate(2px,-2px);}
+  @media(max-width:620px){.knowledge-entry{padding:30px 24px;min-height:390px;}.knowledge-entry-art{width:80px;height:80px;margin-bottom:30px;}}
+</style>

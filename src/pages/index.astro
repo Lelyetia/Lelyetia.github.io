@@ -1,206 +1,25 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ModuleCard from "../components/ModuleCard.astro";
-import { getRecentItems } from "../data/recent.js";
-
-const modules = [
-  {
-    index: "01",
-    id: "introduction",
-    title: "个人介绍",
-    description: "归档个人基本信息、教育经历、语言考试、实习经历与学习方向说明。",
-    items: ["个人基本信息", "教育经历", "学习方向"],
-    href: "/introduction/"
-  },
-  {
-    index: "02",
-    id: "awards",
-    title: "获奖情况",
-    description: "按时间轴归档大学阶段竞赛奖项、荣誉称号、奖学金与阶段性成果。",
-    items: ["大学阶段奖项", "获奖时间轴", "证书与说明"],
-    href: "/awards/"
-  },
-  {
-    index: "03",
-    id: "publications",
-    title: "论文情况",
-    description: "分栏归档期刊/会议论文、预印本与实验报告，并保留 DOI 与 arXiv 链接。",
-    items: ["期刊 / 会议论文", "预印本 / 实验报告", "DOI / arXiv"],
-    href: "/publications/"
-  },
-  {
-    index: "04",
-    id: "notes",
-    title: "个人笔记",
-    description: "分为论文笔记和知识库：前者记录论文阅读，后者连接长期维护的外部知识体系。",
-    items: ["论文笔记", "知识库入口", "阅读记录"],
-    href: "/notes/"
-  },
-  {
-    index: "05",
-    id: "learning",
-    title: "学习内容",
-    description: "记录读过的书、学过的网课、复现过的仓库以及长期学习路线。",
-    items: ["书籍", "视频课程", "代码仓库"],
-    href: "/learning/"
-  },
-  {
-    index: "06",
-    id: "contact",
-    title: "联系方式",
-    description: "社交 / 学术平台账号，欢迎各位与我交流学习方面的内容。",
-    items: ["邮箱", "Google Scholar / ORCID", "GitHub / 社交平台"],
-    href: "/contact/"
-  }
-];
-
-const recentItems = getRecentItems(5);
-
-const countdownEvents = [
-  {
-    title: "2026 年 12 月英语六级",
-    date: "2026-12-19T15:00:00+08:00",
-    note: "预计：12 月第三个周六，待官方通知"
-  },
-  {
-    title: "2028 考研初试",
-    date: "2027-12-25T08:30:00+08:00",
-    note: "预计：12 月 27 日前最后一个周六，待官方通知"
-  }
-];
+import Icon from "../components/Icon.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import { getPublishedArticles } from "../utils/articles";
+const articles = await getPublishedArticles();
 ---
 
-<BaseLayout>
-  <main class="home-shell">
-    <aside class="side-panel recent-panel" aria-label="近期成果">
-      <div class="side-panel-heading">
-        <span>近期成果</span>
-        <small>按日期倒序</small>
-      </div>
-      <div class="recent-list">
-        {recentItems.map((item) => (
-          <article class="recent-item">
-            <time datetime={item.date}>{item.dateLabel}</time>
-            <span class="recent-type">{item.type}</span>
-            <h2>
-              {item.href ? <a href={item.href}>{item.title}</a> : item.title}
-            </h2>
-            <p>{item.meta}</p>
-          </article>
-        ))}
-      </div>
-    </aside>
-
-    <section class="home-main" aria-label="主页模块">
-      <section class="module-grid">
-        <article class="profile-card" id="about">
-          <div class="profile-photo-wrap">
-            <img
-              src="/images/profile/profile-blue-bg.jpg"
-              alt="Yidi Zhouluo 的个人照"
-              class="profile-photo"
-            />
-          </div>
-
-          <div class="profile-info">
-            <h2>个人信息</h2>
-
-            <dl class="profile-meta">
-              <div>
-                <dt>姓名</dt>
-                <dd><span class="english">Yidi Zhouluo</span>（周罗义迪）</dd>
-              </div>
-
-              <div>
-                <dt>目前就读学校</dt>
-                <dd>山东第一医科大学 - 医学信息与人工智能学院</dd>
-              </div>
-
-              <div>
-                <dt>学习方向</dt>
-                <dd>医学人工智能、医学图像分割、人工智能</dd>
-              </div>
-
-              <div>
-                <dt>邮箱</dt>
-                <dd><a class="email-link" href="mailto:zhoulyd@126.com">zhoulyd@126.com</a></dd>
-              </div>
-            </dl>
-          </div>
-        </article>
-        {modules.map((module) => <ModuleCard {...module} />)}
-      </section>
-    </section>
-
-    <div class="right-rail">
-      <aside class="side-panel countdown-panel" aria-label="重要事件倒计时">
-        <div class="side-panel-heading">
-          <span>重要事件倒计时</span>
-          <small>预计日期</small>
-        </div>
-        <div class="countdown-list">
-          {countdownEvents.map((event) => (
-            <article class="countdown-item" data-countdown-date={event.date}>
-              <h2>{event.title}</h2>
-              <p class="countdown-days" data-countdown-days>计算中</p>
-              <time>{event.date.slice(0, 10)}</time>
-              <p>{event.note}</p>
-            </article>
-          ))}
-        </div>
-      </aside>
-
-      <aside class="side-panel stats-panel" aria-label="网站统计信息">
-        <div class="side-panel-heading">
-          <span>统计信息</span>
-          <small>访问记录</small>
-        </div>
-        <div class="stats-list">
-          <div class="stats-item" id="busuanzi_container_site_uv">
-            <span>访客人数</span>
-            <strong><span id="busuanzi_value_site_uv">--</span></strong>
-          </div>
-        </div>
-      </aside>
+<BaseLayout home>
+  <main class="home-page" aria-label="主页内容">
+    <div class="feed-heading" data-reveal>
+      <h2 id="feed-title">文章</h2>
+      <a href="/articles/">全部文章 <Icon name="arrow-right" size={17} /></a>
     </div>
+    {articles.length ? <div class="resource-list">{articles.slice(0, 5).map(item => <ArticleCard item={item} />)}</div> : <section class="article-feed" aria-labelledby="feed-title" data-reveal>
+      <div class="article-empty">
+        <div class="article-empty-meta"><span><Icon name="file" size={18} /></span>公众号文章</div>
+        <h3>文章正在准备中</h3>
+        <p>新的文章会在这里陆续发布。</p>
+        <a class="article-empty-link" href="/articles/">前往公众号文章 <Icon name="arrow-right" size={17} /></a>
+      </div>
+      <a class="article-enter" href="/articles/" aria-label="前往公众号文章列表"><Icon name="chevron-right" size={30} /></a>
+    </section>}
   </main>
-
-  <script>
-    const secondMs = 1000;
-    const minuteMs = 60 * secondMs;
-    const hourMs = 60 * minuteMs;
-    const dayMs = 24 * hourMs;
-
-    function padTime(value) {
-      return String(value).padStart(2, "0");
-    }
-
-    function updateCountdowns() {
-      const now = new Date();
-
-      document.querySelectorAll("[data-countdown-date]").forEach((card) => {
-        const target = new Date(card.dataset.countdownDate);
-        const output = card.querySelector("[data-countdown-days]");
-        const diffMs = target.getTime() - now.getTime();
-
-        if (!output) return;
-        if (diffMs <= 0) {
-          output.textContent = "已到达";
-          return;
-        }
-
-        const days = Math.floor(diffMs / dayMs);
-        const hours = Math.floor((diffMs % dayMs) / hourMs);
-        const minutes = Math.floor((diffMs % hourMs) / minuteMs);
-        const seconds = Math.floor((diffMs % minuteMs) / secondMs);
-
-        output.textContent = `还有 ${days} 天 ${padTime(hours)}:${padTime(minutes)}:${padTime(seconds)}`;
-      });
-    }
-
-    updateCountdowns();
-    window.setInterval(updateCountdowns, 1000);
-  </script>
-
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </BaseLayout>

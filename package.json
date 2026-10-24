@@ -1,12 +1,13 @@
 {
-  "name": "yidizhouluo-github-io",
+  "name": "lelyetia-blog",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "node scripts/run-astro.mjs dev",
     "build": "node scripts/run-astro.mjs build",
-    "preview": "node scripts/run-astro.mjs preview"
+    "preview": "node scripts/run-astro.mjs preview",
+    "test": "node --test"
   },
   "dependencies": {
     "astro": "^5.9.0",

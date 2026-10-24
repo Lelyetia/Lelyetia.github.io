@@ -1,21 +1,58 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 import { contactGroups } from "../data/contacts.js";
+
+type PublicContact = {
+  label: string;
+  value: string;
+  href?: string;
+  icon?: string;
+  iconText?: string;
+  iconTone?: string;
+  note?: string;
+};
+
+const allContacts = contactGroups.flatMap((group) => group.items);
+const emailContacts = allContacts.filter((item) => item.href?.startsWith("mailto:"));
+const storedGithub = allContacts.find((item) => item.label === "GitHub");
+const publicLabels = new Set([...emailContacts.map((item) => item.label), "GitHub"]);
+const privateContacts = allContacts
+  .filter((item) => !publicLabels.has(item.label))
+  .map((item) => ({ label: item.label }));
+
+// Keep the original contact data intact; configure the public cards here.
+const publicGroups: { title: string; items: PublicContact[] }[] = [
+  { title: "邮箱", items: emailContacts },
+  {
+    title: "GitHub",
+    items: storedGithub ? [{ ...storedGithub, value: "Lelyetia", href: "https://github.com/Lelyetia" }] : []
+  },
+  {
+    title: "微信公众号",
+    items: [{
+      label: "微信公众号",
+      value: "Lelyetia的小作坊",
+      icon: "/images/contact/wechat.png"
+    }]
+  }
+];
 ---
 
-<BaseLayout title="联系方式 | 周罗义迪个人网站" description="周罗义迪的邮箱、学术主页、代码平台与社交平台联系方式。">
+<BaseLayout title="联系方式 | Lelyetia的小站" description="通过邮箱、GitHub 或微信公众号与 Lelyetia 联系。">
   <main class="content-page">
     <section class="page-heading">
       <h1>联系方式</h1>
+      <span>可以通过邮箱、GitHub 或微信公众号与我联系。</span>
     </section>
 
     <section class="info-section">
       <div class="section-title-row">
-        <h2>联系与学术主页</h2>
+        <h2>公开联系方式</h2>
       </div>
 
       <div class="contact-stack">
-        {contactGroups.map((group) => (
+        {publicGroups.map((group) => (
           <section class="contact-group">
             <h3>{group.title}</h3>
             <div class="contact-list">
@@ -43,6 +80,29 @@ import { contactGroups } from "../data/contacts.js";
               ))}
             </div>
           </section>
+        ))}
+      </div>
+    </section>
+
+    <section class="info-section contact-private-section" aria-labelledby="private-contacts-title">
+      <header class="contact-private-heading">
+        <span class="contact-lock-icon" aria-hidden="true"><Icon name="lock" size={23} /></span>
+        <div>
+          <h2 id="private-contacts-title">以下信息暂不公开</h2>
+          <p>由于升学压力，暂时没有精力经营以下平台。未来条件允许时，将陆续解锁。</p>
+        </div>
+        <span class="contact-lock-badge">已锁定</span>
+      </header>
+
+      <div class="contact-locked-grid">
+        {privateContacts.map((item) => (
+          <article class="contact-locked-card" aria-label={`${item.label}：暂不公开`}>
+            <div class="contact-locked-body">
+              <h3>{item.label}</h3>
+              <div class="contact-masked-value" aria-hidden="true">•••••••• ••••••••••••</div>
+            </div>
+            <span class="contact-locked-mark" aria-hidden="true"><Icon name="lock" size={18} /></span>
+          </article>
         ))}
       </div>
     </section>

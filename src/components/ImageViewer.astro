@@ -1,0 +1,8 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<dialog class="image-viewer" data-image-viewer aria-label="图片预览">
+  <button class="image-viewer-close" type="button" data-image-close aria-label="关闭图片预览"><Icon name="close" size={26} /></button>
+  <figure><img data-image-preview alt="" /><figcaption data-image-caption></figcaption></figure>
+</dialog>

@@ -12,14 +12,14 @@ export async function getStaticPaths() {
 }
 
 const { item } = Astro.props;
-const { Content } = await render(item);
+const { Content, headings } = await render(item);
 ---
 
-<BaseLayout title={`${item.data.title} | 学习内容`} description={`${item.data.title} 的学习记录。`}>
+<BaseLayout title={`${item.data.title} | 学习资源归档`} description={`${item.data.title} 的学习资源与记录。`} headings={headings}>
   <main class="content-page">
     <article class="learning-detail">
       <div class="learning-detail-media">
-        <a class="back-link" href="/learning/">返回学习内容</a>
+        <a class="back-link" href="/learning/">返回学习资源归档</a>
         <div class="learning-detail-cover">
           <img src={item.data.cover} alt={`${item.data.title} 封面`} />
         </div>

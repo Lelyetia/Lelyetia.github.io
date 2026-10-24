@@ -1,11 +1,44 @@
 ---
 import "katex/dist/katex.min.css";
 import "../styles/global.css";
+import "../styles/home.css";
+import "../styles/motion.css";
+import { ClientRouter } from "astro:transitions";
+import Icon from "../components/Icon.astro";
+import HomeHero from "../components/HomeHero.astro";
+import BlogSidebar from "../components/BlogSidebar.astro";
+import SearchDialog from "../components/SearchDialog.astro";
+import ImageViewer from "../components/ImageViewer.astro";
+import CoverGallery from "../components/CoverGallery.astro";
+import '../styles/cover-gallery.css';
 
 const {
-  title = "周罗义迪个人网站",
-  description = "周罗义迪的个人学术主页。"
+  title = "Lelyetia的小站",
+  description = "Lelyetia的个人博客，分享文章、知识库与学习资源。",
+  home = false,
+  headings = []
 } = Astro.props;
+
+const navigation = [
+  { href: "/", label: "主页" },
+  { href: "/articles/", label: "文章" },
+  { href: "/awards/", label: "获奖情况" },
+  { href: "/knowledge/", label: "知识库" },
+  { href: "/learning/", label: "学习资源归档" },
+  { href: "/contact/", label: "联系方式" }
+];
+const currentPath = Astro.url.pathname;
+const isCurrentPage = (href: string) => href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+const contentAnimation = {
+  forwards: {
+    old: { name: "content-out", duration: "180ms", easing: "ease-in", fillMode: "both" },
+    new: { name: "content-in", duration: "380ms", delay: "100ms", easing: "cubic-bezier(0.22, 1, 0.36, 1)", fillMode: "both" }
+  },
+  backwards: {
+    old: { name: "content-out", duration: "180ms", easing: "ease-in", fillMode: "both" },
+    new: { name: "content-in", duration: "380ms", delay: "100ms", easing: "cubic-bezier(0.22, 1, 0.36, 1)", fillMode: "both" }
+  }
+};
 ---
 
 <!doctype html>
@@ -14,103 +47,66 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <link rel="icon" href="/images/ico/web_ico.png" type="image/png" />
+    <link rel="icon" href="/images/ico/lelyetia-favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/images/ico/lelyetia-touch-icon.png" sizes="180x180" />
     <script is:inline>
-      const storedTheme = localStorage.getItem("site-theme");
-      const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      document.documentElement.dataset.theme = storedTheme ?? preferredTheme;
+      (() => {
+        let storedTheme;
+        try { storedTheme = localStorage.getItem("site-theme"); } catch {}
+        const preferredTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = ["light", "dark"].includes(storedTheme) ? storedTheme : preferredTheme;
+        document.documentElement.classList.add("js");
+      })();
     </script>
     <title>{title}</title>
+    <ClientRouter fallback="animate" />
   </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="/">周罗义迪个人网站</a>
-      <nav class="site-nav" aria-label="主导航">
-        <a href="/">主页</a>
-        <a href="/introduction/">个人介绍</a>
-        <a href="/awards/">获奖情况</a>
-        <a href="/publications/">论文情况</a>
-        <a href="/notes/">个人笔记</a>
-        <a href="/learning/">学习内容</a>
-        <a href="/contact/">联系方式</a>
-      </nav>
-      <div class="theme-menu" data-theme-menu>
-        <button
-          class="theme-menu-toggle"
-          type="button"
-          data-theme-menu-toggle
-          aria-label="主题设置"
-          aria-expanded="false"
-        >
-          <span aria-hidden="true">⚙</span>
-        </button>
-        <div class="theme-menu-panel" data-theme-menu-panel hidden>
-          <button class="theme-option" type="button" data-theme-option="light">
-            <span aria-hidden="true">☀</span>
-            <span>白天</span>
-          </button>
-          <button class="theme-option" type="button" data-theme-option="dark">
-            <span aria-hidden="true">☾</span>
-            <span>夜晚</span>
-          </button>
+  <body id="top" class:list={{ "is-home": home }}>
+    <a class="skip-link" href="#page-content" data-astro-reload>跳转到主要内容</a>
+    <div class="navigation-progress" aria-hidden="true"></div>
+    <header class="site-header" data-site-header transition:name="site-header" transition:animate="none">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="Lelyetia 主页">
+          <span class="brand-mark"><Icon name="home" size={27} /></span><span>Lelyetia</span>
+        </a>
+        <nav class="site-nav" id="site-navigation" aria-label="主导航">
+          {navigation.map((item) => <a href={item.href} aria-current={isCurrentPage(item.href) ? "page" : undefined}>{item.label}</a>)}
+        </nav>
+        <div class="header-actions">
+          <button class="search-toggle js-only" type="button" data-search-toggle aria-label="搜索站内内容"><Icon name="search" size={20} /><span>搜索</span><kbd>/</kbd></button>
+          <div class="theme-menu" data-theme-menu>
+            <button class="theme-menu-toggle" type="button" data-theme-menu-toggle aria-label="主题设置" aria-controls="theme-options" aria-expanded="false">
+              <Icon name="sun" size={20} class="theme-icon-light" /><Icon name="moon" size={20} class="theme-icon-dark" />
+            </button>
+            <div class="theme-menu-panel" id="theme-options" data-theme-menu-panel hidden>
+              <button class="theme-option" type="button" data-theme-option="light"><Icon name="sun" size={18} /><span>白天</span></button>
+              <button class="theme-option" type="button" data-theme-option="dark"><Icon name="moon" size={18} /><span>夜晚</span></button>
+              <button class="theme-option" type="button" data-theme-option="auto"><Icon name="monitor" size={18} /><span>跟随系统</span></button>
+            </div>
+          </div>
+          <button class="nav-toggle" type="button" data-nav-toggle aria-label="展开主导航" aria-controls="site-navigation" aria-expanded="false"><Icon name="menu" size={22} class="nav-icon-open" /><Icon name="close" size={22} class="nav-icon-close" /></button>
         </div>
       </div>
     </header>
 
-    <slot />
-
-    <footer class="site-footer">
-      <p>© 2026 YidiZhouluo. Personal academic archive in progress.</p>
-    </footer>
-
-    <script is:inline>
-      const themeMenu = document.querySelector("[data-theme-menu]");
-      const themeMenuToggle = document.querySelector("[data-theme-menu-toggle]");
-      const themeMenuPanel = document.querySelector("[data-theme-menu-panel]");
-      const themeOptions = document.querySelectorAll("[data-theme-option]");
-
-      function setTheme(nextTheme) {
-        document.documentElement.dataset.theme = nextTheme;
-        localStorage.setItem("site-theme", nextTheme);
-        syncThemeMenu();
-      }
-
-      function syncThemeMenu() {
-        const currentTheme = document.documentElement.dataset.theme;
-        themeOptions.forEach((option) => {
-          option.setAttribute("aria-pressed", String(option.dataset.themeOption === currentTheme));
-        });
-      }
-
-      function closeThemeMenu() {
-        if (!themeMenuPanel || !themeMenuToggle) return;
-        themeMenuPanel.hidden = true;
-        themeMenuToggle.setAttribute("aria-expanded", "false");
-      }
-
-      syncThemeMenu();
-
-      themeMenuToggle?.addEventListener("click", () => {
-        if (!themeMenuPanel || !themeMenuToggle) return;
-        const shouldOpen = themeMenuPanel.hidden;
-        themeMenuPanel.hidden = !shouldOpen;
-        themeMenuToggle.setAttribute("aria-expanded", String(shouldOpen));
-      });
-
-      themeOptions.forEach((option) => {
-        option.addEventListener("click", () => {
-          setTheme(option.dataset.themeOption);
-          closeThemeMenu();
-        });
-      });
-
-      document.addEventListener("click", (event) => {
-        if (!themeMenu?.contains(event.target)) closeThemeMenu();
-      });
-
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") closeThemeMenu();
-      });
-    </script>
+    <HomeHero home={home} />
+    <div class="site-content-grid" id="page-content" tabindex="-1">
+      <BlogSidebar />
+      <div class="site-main" transition:name="main-content" transition:animate={contentAnimation}><slot /></div>
+      <footer class="site-footer" data-reveal>
+        <div class="footer-inner"><p>© 2026 Lelyetia</p><a class="back-to-top" href="#top" data-astro-reload>回到顶部 <Icon name="arrow-up" size={16} /></a></div>
+      </footer>
+    </div>
+    <a class="floating-top js-only" href="#top" data-back-to-top data-astro-reload aria-label="返回页面顶部"><Icon name="arrow-up" size={24} /></a>
+    <SearchDialog />
+    <ImageViewer />
+    <CoverGallery />
+    {headings.length > 0 && <nav class="article-toc" aria-label="文章目录" data-article-toc>
+      <h2>目录</h2>
+      <ul>{headings.filter((heading) => heading.depth === 2 || heading.depth === 3).map((heading) => (
+        <li class:list={{ "toc-nested": heading.depth === 3 }}><a href={`#${heading.slug}`} data-astro-reload>{heading.text}</a></li>
+      ))}</ul>
+    </nav>}
+    <script>import "../scripts/site-ui.js";</script>
   </body>
 </html>

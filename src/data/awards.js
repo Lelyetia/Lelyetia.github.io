@@ -1,5 +1,29 @@
 export const awardItems = [
   {
+    slug: "cumcm-2026-national-second",
+    date: "2026-10",
+    dateLabel: "2026年10月",
+    type: "获奖",
+    title: "2026 高教社杯全国大学生数学建模竞赛全国二等奖",
+    evidenceImages: []
+  },
+  {
+    slug: "computer-design-2026-provincial-awards",
+    date: "2026-10",
+    dateLabel: "2026年10月",
+    type: "获奖",
+    title: "中国大学生计算机设计大赛省级二等奖（2项）、省级三等奖（1项）",
+    evidenceImages: []
+  },
+  {
+    slug: "national-innovation-project-2026",
+    date: "2026-09",
+    dateLabel: "2026年9月",
+    type: "立项",
+    title: "国家级大学生创新创业训练计划项目立项",
+    evidenceImages: []
+  },
+  {
     slug: "robot-ai-competition-provincial-second",
     date: "2026-07",
     dateLabel: "2026年7月",

@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+const { item } = Astro.props;
+const href = `/articles/${item.slug}/`;
+---
+
+<article class="article-feed" data-reveal>
+  <div class="article-empty">
+    <div class="article-empty-meta"><span><Icon name="file" size={18} /></span><time datetime={item.data.date}>{item.data.date}</time></div>
+    <h3><a href={href}>{item.data.title}</a></h3>
+    {item.data.description && <p>{item.data.description}</p>}
+    <div class="article-card-tags">{item.data.tags.map(tag => <span>#{tag}</span>)}</div>
+    <a class="article-empty-link" href={href}>阅读全文 <Icon name="arrow-right" size={17} /></a>
+    <a class="article-enter" href={href} aria-label={`阅读 ${item.data.title}`}><Icon name="chevron-right" size={32} /></a>
+  </div>
+</article>
+
+<style>
+  .article-card-tags{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:14px;color:var(--muted);font-size:.76rem;}
+  h3 a:hover{color:var(--accent);}
+</style>

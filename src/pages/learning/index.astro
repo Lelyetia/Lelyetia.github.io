@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ResourceCard from "../../components/ResourceCard.astro";
 import { getCollection } from "astro:content";
 
 const learningItems = await getCollection("learning");
@@ -30,40 +31,24 @@ const sections = [
 ];
 ---
 
-<BaseLayout title="学习内容 | 周罗义迪个人网站" description="周罗义迪读过的书、学习过的视频课程与参考过的代码仓库。">
+<BaseLayout title="学习资源归档 | Lelyetia的小站" description="Lelyetia整理的书籍、视频课程、代码仓库与学习资源。">
   <main class="content-page">
     <section class="page-heading">
-      <h1>学习内容</h1>
+      <h1>学习资源归档</h1>
+      <span>收集值得保存的书籍、课程与代码仓库，按类型整理，方便随时查阅。</span>
     </section>
 
     {sections.map((section) => {
       const items = sortedItems.filter((item) => item.data.type === section.type);
 
       return (
-        <section class="info-section learning-section">
+        <section class="resource-section">
           <div class="section-title-row">
             <h2>{section.title}</h2>
           </div>
 
-          <div class="learning-grid">
-            {items.map((item) => (
-              <a class={`learning-card learning-card-${item.data.type}`} href={`/learning/${item.slug}/`}>
-                <div class="learning-cover">
-                  <img src={item.data.cover} alt={`${item.data.title} 封面`} />
-                </div>
-                <div class="learning-card-body">
-                  <div class="learning-card-head">
-                    <small>{item.data.status}</small>
-                    <small>{item.data.depth}</small>
-                  </div>
-                  <h3>{item.data.title}</h3>
-                  <p>{item.data.author}</p>
-                  <div class="learning-tags">
-                    {item.data.tags.map((tag) => <span>{tag}</span>)}
-                  </div>
-                </div>
-              </a>
-            ))}
+          <div class="resource-list">
+            {items.map((item) => <ResourceCard item={item} />)}
           </div>
         </section>
       );

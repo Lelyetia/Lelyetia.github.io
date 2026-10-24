@@ -5,7 +5,7 @@ import { awardItems } from "../data/awards.js";
 const sortedAwardItems = [...awardItems].sort((a, b) => b.date.localeCompare(a.date));
 ---
 
-<BaseLayout title="获奖情况 | 周罗义迪个人网站" description="周罗义迪大学阶段获奖情况归档。">
+<BaseLayout title="获奖情况 | Lelyetia的小站" description="Lelyetia 的大学阶段获奖情况归档。">
   <main class="content-page">
     <section class="page-heading">
       <h1>获奖情况</h1>
@@ -25,7 +25,9 @@ const sortedAwardItems = [...awardItems].sort((a, b) => b.date.localeCompare(a.d
             <div class="award-card">
               <div class="award-card-header">
                 <h3>{award.title}</h3>
-                <a class="evidence-link" href={`/awards/evidence/${award.slug}/`}>佐证材料</a>
+                {award.evidenceImage || award.evidenceImages?.length || award.recordImages?.length ? (
+                  <a class="evidence-link" href={`/awards/evidence/${award.slug}/`}>佐证材料</a>
+                ) : <span class="evidence-pending">佐证材料待补充</span>}
               </div>
             </div>
           </article>
@@ -34,3 +36,17 @@ const sortedAwardItems = [...awardItems].sort((a, b) => b.date.localeCompare(a.d
     </section>
   </main>
 </BaseLayout>
+
+<style>
+  .award-card-header .evidence-pending {
+    padding: 3px 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+  @media (max-width: 620px) {
+    .award-card-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+</style>

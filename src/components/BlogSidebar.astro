@@ -1,0 +1,41 @@
+---
+import Icon from "./Icon.astro";
+import { countdownEvents } from "../data/countdowns.js";
+
+const sidebarTags = ["人工智能", "计算机视觉", "计算机图形学", "Python", "C++"];
+const countdownDateFormatter = new Intl.DateTimeFormat("zh-CN", {
+  timeZone: "Asia/Shanghai", year: "numeric", month: "2-digit", day: "2-digit",
+  hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+});
+---
+
+<aside class="blog-sidebar" aria-label="博客侧栏" transition:name="blog-sidebar" transition:persist transition:animate="none">
+  <section class="profile-card" aria-label="个人资料与标签" data-reveal>
+    <a class="profile-avatar-wrap" href="/contact/" aria-label="查看 Lelyetia 的联系方式">
+      <img class="profile-avatar" src="/images/profile/lelyetia-avatar.jpg" alt="Lelyetia 的头像" width="1024" height="1024" decoding="async" />
+      <span class="profile-avatar-overlay" aria-hidden="true"><Icon name="mail" size={34} /></span>
+    </a>
+    <a class="profile-contact" href="/contact/"><Icon name="mail" size={18} /> 联系我 <Icon name="arrow-right" size={17} /></a>
+    <div class="profile-topics" aria-labelledby="topics-title">
+      <h2 class="sidebar-title" id="topics-title">标签</h2>
+      <ul class="topic-tags">{sidebarTags.map((tag) => <li>{tag}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="sidebar-card countdown-panel" aria-labelledby="countdown-title" data-reveal>
+    <div class="side-panel-heading"><h2 class="sidebar-title" id="countdown-title">重要事件倒计时</h2></div>
+    <div class="countdown-list">
+      {countdownEvents.map((event) => (
+        <article class="countdown-item" id={event.id} data-countdown data-countdown-start={event.startsAt ?? undefined} data-countdown-end={event.endsAt ?? undefined}>
+          <h3>{event.title}</h3>
+          <p class="countdown-days" data-countdown-days>{event.startsAt ? "考试时间已公布" : "待官方公布"}</p>
+          {event.startsAt ? (
+            <time datetime={event.startsAt}>{countdownDateFormatter.format(new Date(event.startsAt)).replaceAll("/", "-")}</time>
+          ) : <p>{event.scheduleLabel}</p>}
+          <p>{event.note}</p>
+          <a class="countdown-source" href={event.sourceHref} target="_blank" rel="noreferrer">{event.sourceLabel} <Icon name="arrow-up-right" size={13} /></a>
+        </article>
+      ))}
+    </div>
+  </section>
+</aside>

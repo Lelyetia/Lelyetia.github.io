@@ -1,0 +1,32 @@
+---
+import Icon from './Icon.astro';
+import { getCovers, getDefaultCover } from '../utils/covers.js';
+const covers = getCovers();
+const defaultCover = getDefaultCover(covers);
+---
+
+<dialog class="cover-gallery" data-cover-gallery data-default-cover={defaultCover.src} aria-labelledby="cover-gallery-title">
+  <div class="cover-gallery-inner">
+    <div class="cover-gallery-heading">
+      <div><p class="cover-gallery-eyebrow">A CHANGE OF SCENERY</p><h2 id="cover-gallery-title">历史封面</h2></div>
+      <button class="icon-button" type="button" data-cover-close aria-label="关闭历史封面"><Icon name="close" size={23} /></button>
+    </div>
+    <div class="cover-gallery-preview">
+      <img src={defaultCover.src} alt={`${defaultCover.title}，封面预览`} width="800" height="500" data-cover-preview decoding="async" />
+      <span data-cover-preview-title>{defaultCover.title}</span>
+    </div>
+    <div class="cover-gallery-list-heading"><h3>选择一张封面</h3><span>共 {covers.length} 张</span></div>
+    <div class="cover-gallery-options" role="group" aria-label="可选封面">
+      {covers.map(cover => <button type="button" class="cover-option" data-cover-src={cover.src} data-cover-title={cover.title} aria-pressed={cover.src === defaultCover.src}>
+        <span class="cover-option-image"><img src={cover.src} alt="" width="240" height="150" loading="lazy" decoding="async" /><span class="cover-option-check"><Icon name="check" size={17} /></span></span>
+        <span class="cover-option-title">{cover.title}</span>
+      </button>)}
+    </div>
+    <p class="cover-gallery-note">选择会保存在当前浏览器，下次来访时继续使用。</p>
+    <div class="cover-gallery-footer">
+      <button class="cover-reset" type="button" data-cover-reset>恢复默认</button>
+      <button class="cover-apply" type="button" data-cover-apply>使用这张封面 <Icon name="check" size={18} /></button>
+    </div>
+    <p class="cover-gallery-status" data-cover-status role="status" aria-live="polite"></p>
+  </div>
+</dialog>

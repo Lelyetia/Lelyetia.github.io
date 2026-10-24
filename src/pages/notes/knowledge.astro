@@ -1,22 +1,5 @@
 ---
-const knowledgeBaseHref = "https://YidiZhouluo.github.io/YidiZhouluo-knowledge/";
+import KnowledgePage from "../../components/KnowledgePage.astro";
 ---
 
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="refresh" content={`0; url=${knowledgeBaseHref}`} />
-    <title>正在前往知识库</title>
-    <script is:inline>
-      window.location.replace("https://YidiZhouluo.github.io/YidiZhouluo-knowledge/");
-    </script>
-  </head>
-  <body>
-    <p>
-      正在前往知识库：
-      <a href={knowledgeBaseHref}>YidiZhouluo-knowledge</a>
-    </p>
-  </body>
-</html>
+<KnowledgePage />

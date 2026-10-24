@@ -8,7 +8,7 @@ const evidenceLabel = "\u4F50\u8BC1\u6750\u6599";
 export async function getStaticPaths() {
   const awardNotes = await getCollection("awards");
 
-  return awardItems.map((award) => ({
+  return awardItems.filter(award => award.evidenceImage || award.evidenceImages?.length || award.recordImages?.length || awardNotes.some(note => note.slug === award.slug)).map((award) => ({
     params: { slug: award.slug },
     props: {
       award,

@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import { getPublishedArticles } from "../../utils/articles";
+const articles = await getPublishedArticles();
+---
+
+<BaseLayout title="公众号文章 | Lelyetia的小站" description="Lelyetia的公众号文章，后续将在这里陆续收录。">
+  <main class="content-page">
+    <section class="page-heading">
+      <h1>公众号文章</h1>
+      <span>未来将在这里收录我的公众号文章。</span>
+    </section>
+
+    {articles.length ? <div class="resource-list">{articles.map(item => <ArticleCard item={item} />)}</div> : <section class="info-section" aria-labelledby="articles-status">
+      <div class="section-title-row">
+        <h2 id="articles-status">内容待更新</h2>
+      </div>
+      <p class="empty-note">暂未收录文章，敬请期待。</p>
+    </section>}
+  </main>
+</BaseLayout>
