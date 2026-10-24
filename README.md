@@ -1,7 +1,7 @@
-# YidiZhouluo.github.io
+# Lelyetia.github.io
 
 个人学术主页，使用 Astro 构建并部署到 GitHub Pages。
-链接：[YidiZhouluo.github.io](https://zhouluolab.github.io/)
+链接：[YidiZhouluo.github.io](https://Lelyetia.github.io/)
 
 ## 本地开发
 
