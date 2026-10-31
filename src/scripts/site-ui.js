@@ -180,7 +180,7 @@ function setupPage() {
       const tokens = query.split(/\s+/).filter(Boolean);
       const matches = index.filter(item => tokens.every(token => `${item.title} ${item.keywords} ${item.category}`.normalize('NFKC').toLowerCase().includes(token)));
       const shown = (query ? matches : index).slice(0, 10);
-      status.textContent = query ? (matches.length ? `找到 ${matches.length} 项内容` : '没有找到匹配内容，换个关键词试试。') : '输入关键词，或选择以下内容。';
+      status.textContent = query ? (matches.length ? `找到 ${matches.length} 项内容` : '没有找到匹配内容，换个关键词试试。') : (index.length ? '输入关键词，或选择以下内容。' : '还没有可搜索的文章。');
       for (const item of shown) {
         const li = document.createElement('li');
         const link = document.createElement('a');
@@ -226,7 +226,7 @@ function setupPage() {
     caption.textContent = image.alt;
     if (!viewer.open) viewer.showModal();
   }
-  document.querySelectorAll('.learning-detail-cover img, .learning-review img, .evidence-detail img, .evidence-image, .evidence-record-grid img').forEach(image => {
+  document.querySelectorAll('.article-content img, .evidence-detail img, .evidence-image, .evidence-record-grid img').forEach(image => {
     if (image.closest('a')) return;
     image.classList.add('zoomable-image');
     image.tabIndex = 0;

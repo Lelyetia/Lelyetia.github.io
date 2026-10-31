@@ -14,7 +14,7 @@ import '../styles/cover-gallery.css';
 
 const {
   title = "Lelyetia的小站",
-  description = "Lelyetia的个人博客，分享文章、知识库与学习资源。",
+  description = "Lelyetia的个人博客，分享文章、知识笔记与学习记录。",
   home = false,
   headings = []
 } = Astro.props;
@@ -24,7 +24,6 @@ const navigation = [
   { href: "/articles/", label: "文章" },
   { href: "/awards/", label: "获奖情况" },
   { href: "/knowledge/", label: "知识库" },
-  { href: "/learning/", label: "学习资源归档" },
   { href: "/contact/", label: "联系方式" }
 ];
 const currentPath = Astro.url.pathname;

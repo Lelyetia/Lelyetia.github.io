@@ -16,8 +16,8 @@ const { Content, headings } = await render(item);
     <article class="info-section" data-reveal>
       <a class="back-link" href="/articles/">返回文章列表</a>
       <header class="article-detail-heading"><h1>{item.data.title}</h1><time datetime={item.data.date}>{item.data.date}</time></header>
-      <div class="learning-tags">{item.data.tags.map(tag => <span>{tag}</span>)}</div>
-      <div class="learning-review"><Content /></div>
+      <div class="article-tags">{item.data.tags.map(tag => <span>{tag}</span>)}</div>
+      <div class="article-content"><Content /></div>
     </article>
   </main>
 </BaseLayout>

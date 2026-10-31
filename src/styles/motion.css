@@ -44,8 +44,6 @@ html[data-navigation="complete"] .navigation-progress { opacity: 0; }
 .site-header[data-menu-open="true"] .site-nav { animation: popup-enter 240ms var(--ease-out) both; }
 .topic-tags li { transition: transform 200ms var(--ease-out), background-color 200ms; }
 .topic-tags li:hover { transform: translateY(-2px); background: color-mix(in srgb, var(--brand) 19%, var(--surface)); }
-.resource-card { transition: box-shadow 250ms, border-color 250ms; }
-.resource-card:hover { border-color: color-mix(in srgb, var(--brand) 28%, var(--line)); box-shadow: 0 8px 28px rgb(52 38 23 / 5%); }
 .contact-card { transition: border-color 220ms, background-color 220ms; }
 .contact-card:hover { border-color: var(--line-strong); }
 

@@ -1,7 +1,7 @@
 // Fuwari-style staggered entrances, with an immediate readable no-script fallback.
 export function initScrollReveals({ signal, entrance = true } = {}) {
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const selector = '[data-reveal], .page-heading, .info-section, .award-entry, .contact-group, .contact-locked-card, .learning-detail, .resource-section > .section-title-row';
+  const selector = '[data-reveal], .page-heading, .info-section, .award-entry, .contact-group, .contact-locked-card';
   const elements = [...document.querySelectorAll(selector)].filter(el => !el.dataset.revealed);
   if (preference.matches || !('IntersectionObserver' in window)) return;
   let frame;

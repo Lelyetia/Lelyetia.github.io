@@ -12,7 +12,7 @@ const articles = await getPublishedArticles();
       <span>未来将在这里收录我的公众号文章。</span>
     </section>
 
-    {articles.length ? <div class="resource-list">{articles.map(item => <ArticleCard item={item} />)}</div> : <section class="info-section" aria-labelledby="articles-status">
+    {articles.length ? <div class="article-list">{articles.map(item => <ArticleCard item={item} />)}</div> : <section class="info-section" aria-labelledby="articles-status">
       <div class="section-title-row">
         <h2 id="articles-status">内容待更新</h2>
       </div>

@@ -12,7 +12,7 @@ const articles = await getPublishedArticles();
       <h2 id="feed-title">文章</h2>
       <a href="/articles/">全部文章 <Icon name="arrow-right" size={17} /></a>
     </div>
-    {articles.length ? <div class="resource-list">{articles.slice(0, 5).map(item => <ArticleCard item={item} />)}</div> : <section class="article-feed" aria-labelledby="feed-title" data-reveal>
+    {articles.length ? <div class="article-list">{articles.slice(0, 5).map(item => <ArticleCard item={item} />)}</div> : <section class="article-feed" aria-labelledby="feed-title" data-reveal>
       <div class="article-empty">
         <div class="article-empty-meta"><span><Icon name="file" size={18} /></span>公众号文章</div>
         <h3>文章正在准备中</h3>

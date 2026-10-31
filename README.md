@@ -1,6 +1,6 @@
 # Lelyetia的小站
 
-我的个人博客，用来分享文章、记录学习过程，以及整理学习资源。使用 Astro 构建，部署于 GitHub Pages。
+我的个人博客，用来分享文章、记录学习过程。使用 Astro 构建，部署于 GitHub Pages。
 
 [访问博客](https://lelyetia.github.io/) · [知识库](https://lelyetia.github.io/Lelyetia-knowledge/)
 
@@ -27,10 +27,11 @@ npm run preview
 ## 内容维护
 
 - 文章：`src/content/articles/`
-- 学习资源：`src/content/learning/`
 - 历史封面：`public/images/covers/`
 
-文章和学习资源使用 Markdown 编写。将封面图片放入封面目录，重新构建后即可在网站中选择。
+文章使用 Markdown 编写。将封面图片放入封面目录，重新构建后即可在网站中选择。
+
+书籍、课程与代码仓库已统一整理到[知识库的学习资源章节](https://lelyetia.github.io/Lelyetia-knowledge/learning-resources/)。
 
 ## 致谢
 
